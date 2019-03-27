@@ -1,7 +1,7 @@
 '''
 Created on 14 Mar 2019
 
-@author: francescoferrari
+@author: francescoferrari, Sebastian Hälg
 '''
 
 import pandas as pd
@@ -202,8 +202,17 @@ margin_call=pd.Series(np.zeros(len(V),dtype=bool),index=df.index)
 is_closeout=pd.Series(np.zeros(len(V),dtype=bool),index=df.index)
 tau=[0]
 eta_odd=[0]
+a =df.index.to_series() 
+b =a[1].month
 for i in range(len(V)-1):
-    X.iloc[i+1]=lending_value*np.max(V.iloc[tau[-1]:i+2])
+#    X.iloc[i+1]=lending_value*np.max(V.iloc[tau[-1]:i+2])
+    if abs(a[i+1].month-a[i].month)==1: #check if month changes
+#    if abs(a[i+1].month-b)==2:    
+        X.iloc[i+1]=lending_value*np.max(V.iloc[tau[-1]:i+2])
+#        b = a[i+1].month
+    else:
+        X.iloc[i+1]=X[i]
+        
     if X.iloc[i+1]/V.iloc[i+1]>lending_value/beta:
         is_closeout.iloc[i+1]=True
         if is_closeout.iloc[i]==False or i==tau[-1]:
