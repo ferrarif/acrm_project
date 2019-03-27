@@ -203,15 +203,15 @@ is_closeout=pd.Series(np.zeros(len(V),dtype=bool),index=df.index)
 tau=[0]
 eta_odd=[0]
 a =df.index.to_series() 
-b =a[1].month
+b =a[1].month #uncomment if 2 months
 for i in range(len(V)-1):
-#    X.iloc[i+1]=lending_value*np.max(V.iloc[tau[-1]:i+2])
-    if abs(a[i+1].month-a[i].month)==1: #check if month changes
-#    if abs(a[i+1].month-b)==2:    
-        X.iloc[i+1]=lending_value*np.max(V.iloc[tau[-1]:i+2])
-#        b = a[i+1].month
-    else:
-        X.iloc[i+1]=X[i]
+#    X.iloc[i+1]=lending_value*np.max(V.iloc[tau[-1]:i+2]) #use for daily adjustments, uncomment and comment the monthly and 2 monthly
+    if abs(a[i+1].month-a[i].month)==1: #check if month changes, only use if 1 month, comment if 2 months or 
+#    if abs(a[i+1].month-b)==2:    # used for two months
+        X.iloc[i+1]=lending_value*np.max(V.iloc[tau[-1]:i+2]) #comment if daily
+#        b = a[i+1].month #
+    else: # comment if daily
+        X.iloc[i+1]=X[i] #comment if daily
         
     if X.iloc[i+1]/V.iloc[i+1]>lending_value/beta:
         is_closeout.iloc[i+1]=True
