@@ -34,11 +34,15 @@ def __get_eq_df_from_json(function_,ticker_,outputsize_,interval_,dictkey_,
                               interval_=interval_,
                               datatype_='json',
                               outputsize_=outputsize_).json()
-    df=pd.DataFrame.from_dict(json_string[dictkey_],orient='index')
+    df=pd.DataFrame.from_dict(json_string[dictkey_],orient='index',
+                              dtype='float64')
     df.index.name='date'
     df.index=pd.to_datetime(df.index)
     df.columns=[col_name.split(' ')[1] for col_name in df.columns.values]
     if store_:
+#         todays_date=pd.Timestamp("today").strftime("%Y-%m-%d")
+#         df.to_csv('db//{}_{}.csv'.format(ticker_,todays_date),
+#                   index_label='date')
         df.to_csv('db//{}.csv'.format(ticker_),index_label='date')
     return df
 pass
@@ -66,10 +70,11 @@ def __get_df_daily_adj(ticker_,outputsize_,store_=False):
                                  store_)
 pass
 
-def __get_df_intraday(ticker_,outputsize_,interval_):
+def __get_df_intraday(ticker_,outputsize_,interval_,store_=False):
     function='TIME_SERIES_INTRADAY'
     dictkey='Time Series ({})'.format(interval_)
-    return __get_eq_df_from_json(function,ticker_,outputsize_,interval_,dictkey)
+    return __get_eq_df_from_json(function,ticker_,outputsize_,interval_,dictkey,
+                                 store_)
 pass
 
 def __get_df_weekly(ticker_,outputsize_):
@@ -107,3 +112,11 @@ def __get_df_multi(fun_,tickers_,*args):
         fun_(ticker,*args)
         sleep(12)
 pass
+
+# tickers = ['UBSG.SWI','ABBN.SWI','SREN.SWI','LONN.SWI','KUD.SWI','NESN.SWI',
+#            'VLRTE.SWI','SCMN.SWI','UHRN.SWI','DOKA.SWI','LISN.SWI'];
+# for i in range(len(tickers)):
+#     print(tickers[i])
+#     __get_df_intraday(tickers[i],'full','1min',True)
+#     sleep(12)
+    
