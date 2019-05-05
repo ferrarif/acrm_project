@@ -1,5 +1,5 @@
 '''
-Created on 14 Feb 2019
+Created on 14 Mar 2019
 
 @author: francescoferrari
 '''
@@ -112,11 +112,4 @@ def __get_df_multi(fun_,tickers_,*args):
         fun_(ticker,*args)
         sleep(12)
 pass
-
-# tickers = ['UBSG.SWI','ABBN.SWI','SREN.SWI','LONN.SWI','KUD.SWI','NESN.SWI',
-#            'VLRTE.SWI','SCMN.SWI','UHRN.SWI','DOKA.SWI','LISN.SWI'];
-# for i in range(len(tickers)):
-#     print(tickers[i])
-#     __get_df_intraday(tickers[i],'full','1min',True)
-#     sleep(12)
     
